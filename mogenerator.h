@@ -38,6 +38,8 @@
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
 - (BOOL)isReadonly;
+- (NSString *)wantedName;
+- (BOOL)hasWantedName;
 @end
 
 @interface NSRelationshipDescription (collectionClassName)

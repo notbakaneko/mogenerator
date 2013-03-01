@@ -417,6 +417,23 @@ NSString  *gCustomBaseClassForced;
     return NO;
 }
 
+- (NSString *)wantedName {
+  // primitive_obj
+  // primitive_objValue
+  NSRange underscoreRange = [self.name rangeOfString:@"_" options:NSBackwardsSearch];
+  if (underscoreRange.location != NSNotFound) {
+    return [self.name substringToIndex:underscoreRange.location];
+  } else {
+    return self.name;
+  }
+}
+
+- (BOOL)hasWantedName {
+  // primitive_obj
+  // primitive_objValue
+  NSRange underscoreRange = [self.name rangeOfString:@"_" options:NSBackwardsSearch];
+  return underscoreRange.location != NSNotFound;
+}
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)
