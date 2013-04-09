@@ -505,6 +505,18 @@ NSString  *gCustomBaseClassForced;
 - (BOOL)hasJsonKeys {
   return [[self jsonKeys] count] > 0;
 }
+
+- (BOOL)hasKeyedArchiver {
+  return [self.userInfo objectForKey:@"NSKeyedArchiver"] != nil;
+}
+
+- (BOOL)hasDateFormatter {
+  return [self.userInfo objectForKey:@"dateFormatter"];
+}
+
+- (BOOL)isDate {
+  return self.attributeType == NSDateAttributeType;
+}
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)
