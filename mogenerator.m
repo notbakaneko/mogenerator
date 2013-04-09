@@ -488,6 +488,20 @@ NSString  *gCustomBaseClassForced;
   return keys;
 }
 
+- (NSArray *)jsonKeyValues {
+  NSPredicate *keyPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith 'json'"];
+  NSArray *keys = [[self.userInfo.allKeys filteredArrayUsingPredicate:keyPredicate]
+                   sortedArrayUsingSelector:@selector(compare:)];
+  
+  NSMutableArray *values = [[NSMutableArray alloc] init];
+  for (id key in keys) {
+    [values addObject:[self.userInfo objectForKey:key]];
+  }
+  
+  return values;
+}
+
+
 - (BOOL)hasJsonKeys {
   return [[self jsonKeys] count] > 0;
 }

@@ -43,6 +43,7 @@
 - (NSString *)wantedName;
 - (BOOL)hasWantedName;
 - (NSArray *)jsonKeys;
+- (NSArray *)jsonKeyValues;
 - (BOOL)hasJsonKeys;
 @end
 
