@@ -40,6 +40,7 @@
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
 - (BOOL)isReadonly;
+- (BOOL)isSkip;
 - (NSString *)wantedName;
 - (BOOL)hasWantedName;
 - (NSArray *)jsonKeys;

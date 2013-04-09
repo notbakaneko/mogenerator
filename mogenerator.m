@@ -463,6 +463,10 @@ NSString  *gCustomBaseClassForced;
     return NO;
 }
 
+- (BOOL)isSkip {
+  return [[self userInfo] objectForKey:@"mogenerator.skip"] != nil;
+}
+
 - (NSString *)wantedName {
   // primitive_obj
   // primitive_objValue
