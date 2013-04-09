@@ -5,23 +5,40 @@
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
+<$if noninheritedAttributes.@count > 0$>
 extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
 } <$managedObjectClassName$>Attributes;
+<$endif$>
 
+<$if noninheritedRelationships.@count > 0$>
 extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Relationship.name$>;<$endforeach do$>
 } <$managedObjectClassName$>Relationships;
+<$endif$>
 
+<$if noninheritedFetchedProperties.@count > 0$>
 extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
 } <$managedObjectClassName$>FetchedProperties;
+<$endif$>
+
+<$if hasUserInfoKeys$>
+extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$UserInfo.key$>;<$endforeach do$>
+} <$managedObjectClassName$>UserInfo;
+<$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
-<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeClassName$>;<$endif$>
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasTransformableAttributeType$>
+<$if Attribute.objectAttributeTransformableProtocols$>
+<$foreach Protocol Attribute.objectAttributeTransformableProtocols do$>@protocol <$Protocol$>;
 <$endforeach do$>
-@interface <$managedObjectClassName$>ID : NSManagedObjectID {}
+<$else$>@class <$Attribute.objectAttributeClassName$>;<$endif$><$endif$>
+<$endforeach do$>
+@interface <$managedObjectClassName$>ID : <$if hasSuperentity$><$customSuperentity$>ID<$else$>NSManagedObjectID<$endif$> {}
 @end
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
@@ -47,10 +64,10 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-@property (readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 <$else$>
-@property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
