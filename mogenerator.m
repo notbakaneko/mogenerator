@@ -480,6 +480,17 @@ NSString  *gCustomBaseClassForced;
   NSRange underscoreRange = [self.name rangeOfString:@"_" options:NSBackwardsSearch];
   return underscoreRange.location != NSNotFound;
 }
+
+- (NSArray *)jsonKeys {
+  NSPredicate *keyPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith 'json'"];
+  NSArray *keys = [[self.userInfo.allKeys filteredArrayUsingPredicate:keyPredicate]
+                   sortedArrayUsingSelector:@selector(compare:)];
+  return keys;
+}
+
+- (BOOL)hasJsonKeys {
+  return [[self jsonKeys] count] > 0;
+}
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)

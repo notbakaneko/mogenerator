@@ -42,6 +42,8 @@
 - (BOOL)isReadonly;
 - (NSString *)wantedName;
 - (BOOL)hasWantedName;
+- (NSArray *)jsonKeys;
+- (BOOL)hasJsonKeys;
 @end
 
 @interface NSRelationshipDescription (collectionClassName)
