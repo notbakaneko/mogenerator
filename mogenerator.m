@@ -164,7 +164,10 @@ NSString  *gCustomBaseClassForced;
     NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
     
     nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
-        if (![[attributeDescription name] isEqualToString:@"type"]) {
+        if ([[attributeDescription name] isEqualToString:@"type"]) {
+            ddprintf(@"WARNING skipping 'type' attribute on %@ (%@) - see https://github.com/rentzsch/mogenerator/issues/74\n",
+                     self.name, self.managedObjectClassName);
+        } else {
             [filteredAttributeDescriptions addObject:attributeDescription];
         }
     }
@@ -625,6 +628,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {nil,                   0,      0},
     };
     [optionsParser addOptionsFromTable:optionTable];
+    [optionsParser setArgumentsFilename:@".mogenerator-args"];
 }
 
 - (void)printUsage {
