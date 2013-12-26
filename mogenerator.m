@@ -466,6 +466,10 @@ NSString  *gCustomBaseClassForced;
     return NO;
 }
 
+- (BOOL)isSkip {
+  return [[self userInfo] objectForKey:@"mogenerator.skip"] != nil;
+}
+
 - (NSString *)wantedName {
   // primitive_obj
   // primitive_objValue
@@ -482,6 +486,43 @@ NSString  *gCustomBaseClassForced;
   // primitive_objValue
   NSRange underscoreRange = [self.name rangeOfString:@"_" options:NSBackwardsSearch];
   return underscoreRange.location != NSNotFound;
+}
+
+- (NSArray *)jsonKeys {
+  NSPredicate *keyPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith 'json'"];
+  NSArray *keys = [[self.userInfo.allKeys filteredArrayUsingPredicate:keyPredicate]
+                   sortedArrayUsingSelector:@selector(compare:)];
+  return keys;
+}
+
+- (NSArray *)jsonKeyValues {
+  NSPredicate *keyPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith 'json'"];
+  NSArray *keys = [[self.userInfo.allKeys filteredArrayUsingPredicate:keyPredicate]
+                   sortedArrayUsingSelector:@selector(compare:)];
+  
+  NSMutableArray *values = [[NSMutableArray alloc] init];
+  for (id key in keys) {
+    [values addObject:[self.userInfo objectForKey:key]];
+  }
+  
+  return values;
+}
+
+
+- (BOOL)hasJsonKeys {
+  return [[self jsonKeys] count] > 0;
+}
+
+- (BOOL)hasKeyedArchiver {
+  return [self.userInfo objectForKey:@"NSKeyedArchiver"] != nil;
+}
+
+- (BOOL)hasDateFormatter {
+  return [self.userInfo objectForKey:@"dateFormatter"];
+}
+
+- (BOOL)isDate {
+  return self.attributeType == NSDateAttributeType;
 }
 @end
 

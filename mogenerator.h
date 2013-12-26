@@ -40,8 +40,15 @@
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
 - (BOOL)isReadonly;
+- (BOOL)isSkip;
 - (NSString *)wantedName;
 - (BOOL)hasWantedName;
+- (NSArray *)jsonKeys;
+- (NSArray *)jsonKeyValues;
+- (BOOL)hasJsonKeys;
+- (BOOL)hasKeyedArchiver;
+- (BOOL)hasDateFormatter;
+- (BOOL)isDate;
 @end
 
 @interface NSRelationshipDescription (collectionClassName)
